@@ -5,11 +5,22 @@
 	<title>Document</title>
 </head>
 <body>
+	<p>Press any key to start</p>
+	<p>Wins</p>
+	<p id='wins'></p>
+	<p>Current Word</p>
+	<p id="currentWord"></p>
+	<p>Number of Guesses Remaining</p>
+	<p id='remaining'></p>
+	<p>Letters already guessed</p>
+	<p id='lettersGuessed'></p>
+
 	<script type="text/javascript">
+		// Variables
 		var lettersGuessed = [];
 		var guessesRemaining = 10;
 		var wins = 0;
-		var words = ['cheeseburger', 'tsunami', 'volleyball', 'sunburn', 'bikini', 'frisbee', 'swimming', 'umbrella'];
+		var words = ['cheeseburger', 'tsunami', 'volleyball', 'sunburn', 'bikini', 'frisbee', 'swimming', 'umbrella', 'ocean', 'sharks', 'surfing', 'paddleboard', 'scuba', 'jellyfish', 'sunset'];
 		var currentWord = [];
 
 		// console.log(currentWord[0][0]);
@@ -18,14 +29,41 @@
 		// console.log(currentWord[0][3]);
 
 		// function startGame() {
+		// var selectWord = words[Math.floor(Math.random()*words.length)];
+		// for (var i = 0; i < currentWord.length; i++) {
+		// 	if (selectWord === )
+		// }
+
+		//Creates blanks for current word
 		var selectWord = words[Math.floor(Math.random()*words.length)];
+		currentWord = selectWord;
+		var getWord = document.getElementById('currentWord');
+		var blanks = '';
 		for (var i = 0; i < currentWord.length; i++) {
-			
+			blanks = blanks + '_ ';
 		}
-		currentWord.push(selectWord);
+		getWord.innerHTML = blanks;
 		console.log(currentWord);
 
-		
+		// Entering letters
+		var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+		document.onkeyup = function(event) {
+			var getId = document.getElementById('lettersGuessed');
+			var letter = String.fromCharCode(event.keyCode).toLowerCase();
+			for (var i = 0; i < alphabet.length; i++) {
+				if (letter === alphabet[i]) {
+					lettersGuessed.push(letter);
+					getId.innerHTML = lettersGuessed;
+					for (var i = 0; i < currentWord.length; i++) {
+						if (letter === currentWord[i]) {
+							
+						}
+					}
+					var getId = document.getElementById('remaining');
+					getId.innerHTML = guessesRemaining - 1;
+				}
+			}
+		}
 
 
 	</script>
