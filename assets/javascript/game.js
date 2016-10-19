@@ -47,6 +47,7 @@ function checkLettersGuessed() {
 			return;
 		}
 	}
+	usedLetter();
 	checkCurrentWord();
 }
 
@@ -77,9 +78,13 @@ function replaceLetter() {
 	}
 }
 
-function useLetter() {
+function usedLetter() {
+	for (var i = 0; i < currentWord.length; i++) {
+		if (letter === currentWord[i]) {
+			return;
+		}
+	}
 	lettersGuessed.push(letter);
-	console.log(lettersGuessed);
 	var newLetter = document.createElement('li');
 	newLetter.innerHTML = letter;
 	newLetter.setAttribute('class', 'display-inline padding');
