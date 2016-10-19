@@ -2,3 +2,11 @@
 	display: inline;
 	list-style: none;
 }
+
+.transparent {
+	color: transparent;
+}
+
+.padding {
+	padding: 10px;
+}
