@@ -54,16 +54,21 @@ function checkCurrentWord() {
 	for (var i = 0; i < currentWord.length; i++) {
 		if (letter === currentWord[i]) {
 			workingWord[i] = letter;
+			adjustScores();
 			replaceLetter();
 		}
 	}
 }
 
+function adjustScores() {
+
+}
+
 function replaceLetter() {
-	currentWordId.innerHTML = workingWord[i];
-	var removeBlanks = document.getElementById('blank');
-	currentWordId.removeChild(currentWordId.firstChild);
+	// currentWordId.innerHTML = 'Current Word';
 	for (var i = 0; i < workingWord.length; i++) {
+		var removeBlanks = document.getElementById('blank');
+		currentWordId.removeChild(removeBlanks);
 		var newBlankOrLetter = document.createElement('li');
 		newBlankOrLetter.setAttribute('class', 'display-inline padding');
 		newBlankOrLetter.setAttribute('id', 'blank');
