@@ -1,4 +1,3 @@
-window.onload = function() {
 // Variables
 var guessesRemaining = 10;
 var wins = 0;
@@ -7,9 +6,11 @@ var currentWord = '';
 var workingWord = [];
 var lettersGuessed = [' '];
 var letter;
+var wrongLetterCounter = 0;
 var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
 var lettersGuessedId = document.getElementById('lettersGuessed');
 var currentWordId = document.getElementById('currentWord');
+var remainingId = document.getElementById('remaining');
 
 // Selects new word and splits each character into an array
 var selectWord = words[Math.floor(Math.random()*words.length)];
@@ -41,6 +42,7 @@ function checkAlphabet() {
 	}
 }
 
+// check whether letter has been used
 function checkLettersGuessed() {
 	for (var i = 0; i < lettersGuessed.length; i++) {
 		if (letter === lettersGuessed[i]) {
@@ -51,22 +53,38 @@ function checkLettersGuessed() {
 	checkCurrentWord();
 }
 
+// check if letter is in current word
+// also check if letter is in working word
 function checkCurrentWord() {
 	for (var i = 0; i < currentWord.length; i++) {
-		if (letter === currentWord[i]) {
+		if (letter === workingWord[i]) {
+			return;
+		} else if (letter === currentWord[i]) {
 			workingWord[i] = letter;
-			adjustScores();
 			replaceLetter();
+		} 
+	}
+	remainingCounter();
+}
+
+// substracts wrong guesses from number of guesses left
+function remainingCounter() {	
+	for (var i = 0; i < workingWord.length; i++) {
+		if (letter === workingWord[i]) {
+			return;
+		} else {
+		wrongLetterCounter += 1;
+		if (wrongLetterCounter > 0) {
+			guessesRemaining -= 1;
+			remaining();
+		} else {
+			wrongLetterCounter = 0;
 		}
 	}
 }
 
-function adjustScores() {
-
-}
-
+// re-writes display of current word with letters and blanks
 function replaceLetter() {
-	// currentWordId.innerHTML = 'Current Word';
 	for (var i = 0; i < workingWord.length; i++) {
 		var removeBlanks = document.getElementById('blank');
 		currentWordId.removeChild(removeBlanks);
@@ -89,6 +107,32 @@ function usedLetter() {
 	newLetter.innerHTML = letter;
 	newLetter.setAttribute('class', 'display-inline padding');
 	lettersGuessedId.appendChild(newLetter);
+	remaining();
 }
 
+function remaining() {
+	var removeOldScore = document.getElementById('lives');
+	remainingId.removeChild(removeOldScore);
+	var newScore = document.createElement('li');
+	newScore.setAttribute('id', 'lives');
+	newScore.setAttribute('class', 'display-inline padding')
+	newScore.innerHTML = guessesRemaining;
+	remainingId.appendChild(newScore);
+	if (guessesRemaining < 1) {
+		endGame();
+	}
 }
+
+
+function win() {
+
+}
+
+function lose() {
+
+}
+
+function endGame() {
+
+}
+

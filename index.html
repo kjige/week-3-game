@@ -2,8 +2,6 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<script type="text/javascript" src="assets/javascript/game.js">
-	</script>
 	<title>Document</title>
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
@@ -14,16 +12,21 @@
 	</div>
 	<div id='wins'>
 		<p>Wins</p>
+		<li id='wins' class="display-inline">0</li>
 	</div>
 	<div id='currentWord'>
 		<p>Current Word</p>
 	</div>
 	<div id='remaining'>
 		<p>Number of Guesses Remaining</p>
+		<li id='lives' class="display-inline">10</li>
 	</div>
 	<div id='lettersGuessed'>
 		<p>Letters already guessed</p>
 	</div>
+	<div id="gameStatus">
+	</div>
 
+	<script type="text/javascript" src="assets/javascript/game.js"></script>
 </body>
 </html>
