@@ -37,20 +37,21 @@ play();
 document.onkeyup = function(event) {
     letter = String.fromCharCode(event.keyCode).toLowerCase();
         checkAlphabet();
-    if (checkAlphabet()===true) {
+    if (checkAlphabet() === true) {
         checkLettersGuessed();
-    }
-    if (checkLettersGuessed()===true) {
-        checkWorkingWord();    
-    } 
-    if (checkWorkingWord()===true) {
-        checkCurrentWord();
-    }
-    if (checkCurrentWord()===true) {
-        replaceLetter();
-    } 
-    if (replaceLetter()===true) {
-        winStatus();
+        if (checkLettersGuessed() === true) {
+	        checkWorkingWord();    
+    		if (checkWorkingWord() === true) {
+	    	    checkCurrentWord();
+	    	    if (checkCurrentWord() === true) {
+			        replaceLetter();
+			        if (replaceLetter() === true) {
+				        winStatus();
+				    }
+				} else if (checkCurrentWord() === false) {
+					subtractRemaining();
+			}
+		}
     } 
 }
 
@@ -87,13 +88,15 @@ function checkWorkingWord() {
 // check if letter is in the answer
 function checkCurrentWord() {
 	for (var i = 0; i < currentWord.length; i++) {
+		if (letter !== currentWord[i]) {
+			lettersGuessed.push(letter);
+			return false;
+		}
 		if (letter === currentWord[i]) {
 			workingWord[i] = letter;
-		} 
+		}
 	}
-	lettersGuessed.push(letter);
-	subtractRemaining();
-	return false;
+	return true;
 }
 
 // re-writes display of current word with letters and blanks
@@ -197,5 +200,6 @@ function resetGame() {
 		updateRemaining();
 		play();
 	}
+}
 }
 
