@@ -35,14 +35,24 @@ play();
 
 // Store letter on key up and run functions
 document.onkeyup = function(event) {
-	letter = String.fromCharCode(event.keyCode).toLowerCase();
-		checkAlphabet();
-		checkLettersGuessed();
-		checkWorkingWord();	
-		checkCurrentWord();
-		replaceLetter();
-		winStatus();
-} 
+    letter = String.fromCharCode(event.keyCode).toLowerCase();
+        checkAlphabet();
+    if (checkAlphabet()===true) {
+        checkLettersGuessed();
+    }
+    if (checkLettersGuessed()===true) {
+        checkWorkingWord();    
+    } 
+    if (checkWorkingWord()===true) {
+        checkCurrentWord();
+    }
+    if (checkCurrentWord()===true) {
+        replaceLetter();
+    } 
+    if (replaceLetter()===true) {
+        winStatus();
+    } 
+}
 
 // Check alphabet array
 function checkAlphabet() {
