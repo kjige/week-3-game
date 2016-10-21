@@ -2,13 +2,11 @@
 var guessesRemaining = 10;
 var wins = 0;
 var words = ['cheeseburger', 'tsunami', 'volleyball', 'sunburn', 'bikini', 'frisbee', 'swimming', 'umbrella', 'ocean', 'sharks', 'surfing', 'paddleboard', 'scuba', 'jellyfish', 'sunset'];
-var currentWord = '';
+var currentWord = [];
 var workingWord = [];
-var lettersGuessed = [' '];
-var numberGuesses = lettersGuessed.length;
+var lettersGuessed = [];
 var letter;
 var wrongLetterCounter = 0;
-// var flag = true;
 var lettersGuessedId = document.getElementById('lettersGuessed');
 var currentWordId = document.getElementById('currentWord');
 var remainingId = document.getElementById('remaining');
@@ -22,75 +20,70 @@ currentWord = selectWord.split("");
 console.log(currentWord);
 
 //Creates blanks for current word
-for (var i = 0; i < currentWord.length; i++) {
-	var newBlank = document.createElement('li');
-	newBlank.setAttribute('class', 'display-inline padding');
-	newBlank.setAttribute('id', 'blank');
-	newBlank.innerHTML = '_';
-	currentWordId.appendChild(newBlank);
-	workingWord.push('_');
+function play() {
+	for (var i = 0; i < currentWord.length; i++) {
+		var newBlank = document.createElement('li');
+		newBlank.setAttribute('class', 'display-inline padding');
+		newBlank.setAttribute('id', 'blank');
+		newBlank.innerHTML = '_';
+		currentWordId.appendChild(newBlank);
+		workingWord.push('_');
+	}
 }
+// Start game
+play();
 
 // Store letter on key up and run functions
 document.onkeyup = function(event) {
 	letter = String.fromCharCode(event.keyCode).toLowerCase();
-	// flag = true;
-	checkAlphabet();
-	checkLettersGuessed();
-	checkWorkingWord();
-	checkCurrentWord();
-	replaceLetter();
-	winStatus();
-}
+		checkAlphabet();
+		checkLettersGuessed();
+		checkWorkingWord();	
+		checkCurrentWord();
+		replaceLetter();
+		winStatus();
+} 
 
 // Check alphabet array
 function checkAlphabet() {
 	for (var i = 0; i < alphabet.length; i++) {
-		if (letter === alphabet) {
-			return;
-		} else {
-			// console.log('alphabet');
-			return false;
+		if (letter === alphabet[i]) {
+			return true;
 		}
 	}
+	return false;
 }
 
 // check whether letter has been used
 function checkLettersGuessed() {
 	for (var i = 0; i < lettersGuessed.length; i++) {
-		if (letter !== lettersGuessed[i]) {
-			return;
-		} else {
-			// console.log('checkLettersGuessed');
+		if (letter === lettersGuessed[i]) {
 			return false;
 		}
 	}
+	return true;
 }
 
 // check if letter is in the working word
 function checkWorkingWord() {
 	for (var i = 0; i < workingWord.length; i++) {
-		if (letter !== workingWord[i]) {
-			return;
-		} else {
-			// console.log('checkWorkingWord');
+		if (letter === workingWord[i]) {
 			return false;
 		}
 	}
+	return true;
 }
 
 // check if letter is in the answer
 function checkCurrentWord() {
 	for (var i = 0; i < currentWord.length; i++) {
-		if (letter !== currentWord[i]) {
-			// console.log('checkCurrentWord');
-			subtractRemaining();
-			return false;
-		} else if (letter === currentWord[i]) {
+		if (letter === currentWord[i]) {
 			workingWord[i] = letter;
-			return;
 		} 
 	}
+	lettersGuessed.push(letter);
+	subtractRemaining();
+	return false;
 }
 
 // re-writes display of current word with letters and blanks
@@ -104,13 +97,14 @@ function replaceLetter() {
 			newBlankOrLetter.innerHTML = workingWord[i];
 			currentWordId.appendChild(newBlankOrLetter);
 		}
+	return true;
 }
 
 // subtracts 1 from remaining number of guesses
 function subtractRemaining() {	
 	for (var i = 0; i < workingWord.length; i++) {
 		if (letter === workingWord[i]) {
-			return;
+			return false;
 		} else {
 		wrongLetterCounter += 1;
 		}
@@ -131,14 +125,14 @@ function updateRemaining() {
 	newScore.setAttribute('class', 'display-inline padding')
 	newScore.innerHTML = guessesRemaining;
 	remainingId.appendChild(newScore);
-	usedLetters();
+	wrongLetterCounter = 0;
+	updateUsedLetters();
 	lose();
 	}
 }
 
-// updates DOM with letters that were previously used
-function usedLetters() {
-	lettersGuessed.push(letter);
+// updates div with letters that were previously used
+function updateUsedLetters() {
 	var newLetter = document.createElement('li');
 	newLetter.innerHTML = letter;
 	newLetter.setAttribute('class', 'display-inline padding');
@@ -156,6 +150,8 @@ function winStatus() {
 		gameStatusId.appendChild(newgameStatus);
 		wins += 1;
 		winCounter();
+	} else {
+		return true;
 	}
 }
 
@@ -173,20 +169,23 @@ function winCounter() {
 // updates game status to game over
 function lose() {
 	if (guessesRemaining < 1) {
+		var removeGameStatus = document.getElementById('play');
+		gameStatusId.removeChild(removeGameStatus);
 		var newgameStatus = document.createElement('li');
 		newgameStatus.innerHTML = 'Game Over';
 		gameStatusId.appendChild(newgameStatus);
+		resetGame();
 	}
 }
 
 function resetGame() {
-	document.onkeyup = function(event){
+	document.onkeyup = function(){
 		guessesRemaining = 10;
 		currentWord = ' ';
 		workingWord = [];
 		lettersGuessed = [' '];
+		updateRemaining();
+		play();
 	}
 }
-
-
 
