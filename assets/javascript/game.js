@@ -45,11 +45,24 @@ document.onkeyup = function(event) {
 	    	    checkCurrentWord();
 	    	    if (checkCurrentWord() === true) {
 			        replaceLetter();
-			        if (replaceLetter() === true) {
-				        winStatus();
-				    }
-				} else if (checkCurrentWord() === false) {
+					winStatus();
+					if (winStatus() === true) {
+						winCounter();
+						resetGame();
+						updateRemaining();
+						play();
+					} 
+				} else {
 					subtractRemaining();
+					updateRemaining();
+					updateUsedLetters();
+					lose();
+					if (lose() === true) {
+						resetGame();
+						updateRemaining();
+						play();
+					}
+				}
 			}
 		}
     } 
@@ -88,10 +101,6 @@ function checkWorkingWord() {
 // check if letter is in the answer
 function checkCurrentWord() {
 	for (var i = 0; i < currentWord.length; i++) {
-		if (letter !== currentWord[i]) {
-			lettersGuessed.push(letter);
-			return false;
-		}
 		if (letter === currentWord[i]) {
 			workingWord[i] = letter;
 		}
@@ -101,32 +110,20 @@ function checkCurrentWord() {
 
 // re-writes display of current word with letters and blanks
 function replaceLetter() {
-		for (var i = 0; i < workingWord.length; i++) {
-			var removeBlanks = document.getElementById('blank');
-			currentWordId.removeChild(removeBlanks);
-			var newBlankOrLetter = document.createElement('li');
-			newBlankOrLetter.setAttribute('class', 'display-inline padding');
-			newBlankOrLetter.setAttribute('id', 'blank');
-			newBlankOrLetter.innerHTML = workingWord[i];
-			currentWordId.appendChild(newBlankOrLetter);
-		}
-	return true;
+	for (var i = 0; i < workingWord.length; i++) {
+		var removeBlanks = document.getElementById('blank');
+		currentWordId.removeChild(removeBlanks);
+		var newBlankOrLetter = document.createElement('li');
+		newBlankOrLetter.setAttribute('class', 'display-inline padding');
+		newBlankOrLetter.setAttribute('id', 'blank');
+		newBlankOrLetter.innerHTML = workingWord[i];
+		currentWordId.appendChild(newBlankOrLetter);
+	}
 }
 
 // subtracts 1 from remaining number of guesses
 function subtractRemaining() {	
-	for (var i = 0; i < workingWord.length; i++) {
-		if (letter === workingWord[i]) {
-			return false;
-		} else {
-		wrongLetterCounter += 1;
-		}
-	}
-	if (wrongLetterCounter > 0) {
 		guessesRemaining -= 1;
-		updateRemaining();
-	} else {
-		wrongLetterCounter = 0;
 }
 
 // updates remaining guesses left in DOM
@@ -138,13 +135,9 @@ function updateRemaining() {
 	newScore.setAttribute('class', 'display-inline padding')
 	newScore.innerHTML = guessesRemaining;
 	remainingId.appendChild(newScore);
-	wrongLetterCounter = 0;
-	updateUsedLetters();
-	lose();
 	}
-}
 
-// updates div with letters that were previously used
+// updates div containing previously used letters with new letter
 function updateUsedLetters() {
 	var newLetter = document.createElement('li');
 	newLetter.innerHTML = letter;
@@ -162,21 +155,19 @@ function winStatus() {
 		newgameStatus.innerHTML = 'You Win!';
 		gameStatusId.appendChild(newgameStatus);
 		wins += 1;
-		winCounter();
-	} else {
 		return true;
 	}
+	return false;
 }
 
 // updates win counter
 function winCounter() {
 	var removeWinCounter = document.getElementById('winCounter');
-	winStatus.removeChild(removeWinCounter);
-	var newWinCounter = createElement('li');
+	winsId.removeChild(removeWinCounter);
+	var newWinCounter = document.createElement('li');
 	newWinCounter.setAttribute('class', 'display-inline');
 	newWinCounter.innerHTML = wins;
 	winsId.appendChild(newWinCounter);
-	resetGame();
 }
 
 // updates game status to game over
@@ -187,19 +178,18 @@ function lose() {
 		var newgameStatus = document.createElement('li');
 		newgameStatus.innerHTML = 'Game Over';
 		gameStatusId.appendChild(newgameStatus);
-		resetGame();
+		return true;
 	}
+	return false;
 }
 
 function resetGame() {
 	document.onkeyup = function(){
 		guessesRemaining = 10;
-		currentWord = ' ';
+		currentWord = [];
 		workingWord = [];
-		lettersGuessed = [' '];
-		updateRemaining();
-		play();
+		lettersGuessed = [];
 	}
 }
-}
+
 
