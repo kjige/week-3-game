@@ -52,7 +52,8 @@ document.onkeyup = function(event) {
 						updateRemaining();
 						play();
 					} 
-				} else {
+				}
+				if (checkCurrentWord() === false) {
 					subtractRemaining();
 					updateRemaining();
 					updateUsedLetters();
@@ -100,12 +101,14 @@ function checkWorkingWord() {
 
 // check if letter is in the answer
 function checkCurrentWord() {
+	var wasFound = false;
 	for (var i = 0; i < currentWord.length; i++) {
 		if (letter === currentWord[i]) {
 			workingWord[i] = letter;
+			wasFound = true;
 		}
 	}
-	return true;
+	return wasFound;
 }
 
 // re-writes display of current word with letters and blanks
@@ -123,7 +126,7 @@ function replaceLetter() {
 
 // subtracts 1 from remaining number of guesses
 function subtractRemaining() {	
-		guessesRemaining -= 1;
+	guessesRemaining -= 1;
 }
 
 // updates remaining guesses left in DOM
