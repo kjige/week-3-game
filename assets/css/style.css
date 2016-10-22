@@ -1,3 +1,7 @@
+body {
+	background-image: url('../images/beach.jpg');
+}
+
 .display-inline {
 	display: inline;
 	list-style: none;
@@ -9,4 +13,8 @@
 
 .padding {
 	padding: 10px;
+}
+
+h2, li {
+	color: white;
 }

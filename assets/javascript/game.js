@@ -6,13 +6,15 @@ var currentWord = [];
 var workingWord = [];
 var lettersGuessed = [];
 var letter;
-var wrongLetterCounter = 0;
-var lettersGuessedId = document.getElementById('lettersGuessed');
-var currentWordId = document.getElementById('currentWord');
-var remainingId = document.getElementById('remaining');
-var gameStatusId = document.getElementById('gameStatus');
 var winsId = document.getElementById('wins');
+var winCounterId = document.getElementById('winCounter');
+var currentWordId = document.getElementById('currentWord');
 var blanksId = document.getElementById('blank');
+var remainingId = document.getElementById('remaining');
+var livesId = document.getElementById('lives');
+var lettersGuessedId = document.getElementById('lettersGuessed');
+var gameStatusId = document.getElementById('gameStatus');
+var playId = document.getElementById('play');
 var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
 
 // Selects new word and splits each character into an array
@@ -126,8 +128,7 @@ function subtractRemaining() {
 
 // updates remaining guesses left in DOM
 function updateRemaining() {
-	var removeOldScore = document.getElementById('lives');
-	remainingId.removeChild(removeOldScore);
+	remainingId.removeChild(livesId);
 	var newScore = document.createElement('li');
 	newScore.setAttribute('id', 'lives');
 	newScore.setAttribute('class', 'display-inline padding')
@@ -152,8 +153,7 @@ function winStatus() {
 		}
 	}
 	if (isComplete) {
-		var removeGameStatus = document.getElementById('play');
-		gameStatusId.removeChild(removeGameStatus);
+		gameStatusId.removeChild(playId);
 		var newgameStatus = document.createElement('li');
 		newgameStatus.setAttribute('class', 'display-inline');
 		newgameStatus.innerHTML = 'You Win!';
@@ -166,8 +166,7 @@ function winStatus() {
 
 // updates win counter
 function winCounter() {
-	var removeWinCounter = document.getElementById('winCounter');
-	winsId.removeChild(removeWinCounter);
+	winsId.removeChild(winCounterId);
 	var newWinCounter = document.createElement('li');
 	newWinCounter.setAttribute('class', 'display-inline');
 	newWinCounter.innerHTML = wins;
@@ -177,8 +176,7 @@ function winCounter() {
 // updates game status to game over
 function lose() {
 	if (guessesRemaining < 1) {
-		var removeGameStatus = document.getElementById('play');
-		gameStatusId.removeChild(removeGameStatus);
+		gameStatusId.removeChild(playId);
 		var newgameStatus = document.createElement('li');
 		newgameStatus.innerHTML = 'Game Over';
 		gameStatusId.appendChild(newgameStatus);
@@ -193,6 +191,7 @@ function resetGame() {
 		currentWord = [];
 		workingWord = [];
 		lettersGuessed = [];
+		play();
 	}
 }
 
