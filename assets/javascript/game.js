@@ -12,6 +12,7 @@ var currentWordId = document.getElementById('currentWord');
 var remainingId = document.getElementById('remaining');
 var gameStatusId = document.getElementById('gameStatus');
 var winsId = document.getElementById('wins');
+var blanksId = document.getElementById('blank');
 var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
 
 // Selects new word and splits each character into an array
@@ -22,6 +23,7 @@ console.log(currentWord);
 //Creates blanks for current word
 function play() {
 	for (var i = 0; i < currentWord.length; i++) {
+		currentWordId.removeChild(blanksId);
 		var newBlank = document.createElement('li');
 		newBlank.setAttribute('class', 'display-inline padding');
 		newBlank.setAttribute('id', 'blank');
@@ -36,28 +38,21 @@ play();
 // Store letter on key up and run functions
 document.onkeyup = function(event) {
     letter = String.fromCharCode(event.keyCode).toLowerCase();
-        checkAlphabet();
     if (checkAlphabet() === true) {
-        checkLettersGuessed();
-        if (checkLettersGuessed() === true) {
-	        checkWorkingWord();    
+        if (checkLettersGuessed() === true) { 
     		if (checkWorkingWord() === true) {
-	    	    checkCurrentWord();
 	    	    if (checkCurrentWord() === true) {
 			        replaceLetter();
-					winStatus();
 					if (winStatus() === true) {
 						winCounter();
 						resetGame();
 						updateRemaining();
 						play();
 					} 
-				}
-				if (checkCurrentWord() === false) {
+				 } else if (checkCurrentWord() === false) {
 					subtractRemaining();
 					updateRemaining();
 					updateUsedLetters();
-					lose();
 					if (lose() === true) {
 						resetGame();
 						updateRemaining();
@@ -114,8 +109,7 @@ function checkCurrentWord() {
 // re-writes display of current word with letters and blanks
 function replaceLetter() {
 	for (var i = 0; i < workingWord.length; i++) {
-		var removeBlanks = document.getElementById('blank');
-		currentWordId.removeChild(removeBlanks);
+		currentWordId.removeChild(blanksId);
 		var newBlankOrLetter = document.createElement('li');
 		newBlankOrLetter.setAttribute('class', 'display-inline padding');
 		newBlankOrLetter.setAttribute('id', 'blank');
@@ -127,6 +121,7 @@ function replaceLetter() {
 // subtracts 1 from remaining number of guesses
 function subtractRemaining() {	
 	guessesRemaining -= 1;
+	lettersGuessed.push(letter);
 }
 
 // updates remaining guesses left in DOM
@@ -150,7 +145,13 @@ function updateUsedLetters() {
 
 // updates game status to win
 function winStatus() {
-	if (workingWord === currentWord) {
+	var isComplete = true;
+	for (var i = 0; i < currentWord.length; i++) {
+		if (workingWord[i] !== currentWord[i]) {
+			isComplete = false;
+		}
+	}
+	if (isComplete) {
 		var removeGameStatus = document.getElementById('play');
 		gameStatusId.removeChild(removeGameStatus);
 		var newgameStatus = document.createElement('li');
