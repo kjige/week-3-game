@@ -11,7 +11,7 @@
 	<div class="container">
 		<div class="row">
 			<header class="page-header clearfix bg-primary">
-				<div class="col-md-8 col-sm-7 col-xs-12">
+				<div class="col-md-12 col-sm-12 col-xs-12 center">
 					<h1>Hangman: Beach!</h1>
 				</div>
 			</header>
@@ -19,32 +19,47 @@
 	</div>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-8 col-sm-8 col-xs-12 press-to-start">
+			<div id="gameStatus" class="col-md-12 col-sm-12 col-xs-12 press-to-start">
+				<ul>
+					<li id='play' class="display-inline">
+						<h2>Press any key to start</h2>	
+					</li>	
+				</ul>
+			</div>
+		</div>
+		<div class="row">
+			<div id='wins' class="col-md-6 col-sm-6 col-xs-12 center">
 				<h2>
-					Press any key to start
-				</h2>	
-				<div id='wins'>
-					<h2>
-						Wins
-					</h2>
+					Wins
+				</h2>
+				<ul>
 					<li id='winCounter' class="display-inline">
 						0
 					</li>
-				</div>
-				<div id='currentWord'>
-					<h2>Current Word</h2>
+				</ul>
+			</div>
+			<div id='remaining' class="col-md-6 col-sm-6 col-xs-12 center">
+				<h2>
+					Guesses Remaining
+				</h2>
+				<ul>
+					<li id='lives' class="display-inline center">
+						10
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="row">
+			<div id='currentWord'>
+				<h2>Current Word</h2>
+				<ul>
 					<li id='blank'></li>
-				</div>
-				<div id='remaining'>
-					<h2>Number of Guesses Remaining</h2>
-					<li id='lives' class="display-inline">10</li>
-				</div>
-				<div id='lettersGuessed'>
-					<h2>Letters already guessed</h2>
-				</div>
-				<div id="gameStatus">
-					<li id='play' class="display-inline"></li>
-				</div>
+				</ul>
+			</div>
+			<div id='lettersGuessed'>
+				<h2>Letters already guessed</h2>
+			</div>
+		</div>
 			</div>
 
 	</container>
