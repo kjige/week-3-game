@@ -15,10 +15,10 @@ var lettersGuessedId = document.getElementById('lettersGuessed');
 var gameStatusId = document.getElementById('gameStatus');
 
 function play() {
-	for (var i = 0; i < workingWord.length; i++) {
-		var blanksId = document.getElementById('blank');
-		blanksId.parentNode.removeChild(blanksId);
-	}
+	var blanksId = document.getElementById('blank');
+	blanksId.parentNode.removeChild(blanksId);
+	var guessedId = document.getElementById('guessed');
+	guessedId.parentNode.removeChild(guessedId);
 	// Selects new word and splits each character into an array
 	var selectWord = words[Math.floor(Math.random()*words.length)];
 	currentWord = selectWord.split("");
@@ -163,7 +163,7 @@ function winStatus() {
 		var newgameStatus = document.createElement('li');
 		newgameStatus.setAttribute('class', 'display-inline');
 		newgameStatus.setAttribute('id', 'play');
-		newgameStatus.innerHTML = 'You Win!';
+		newgameStatus.innerHTML = 'You Won!';
 		gameStatusId.appendChild(newgameStatus);
 		wins += 1;
 		return true;
@@ -190,7 +190,7 @@ function lose() {
 		var newgameStatus = document.createElement('li');
 		newgameStatus.setAttribute('id', 'play');
 		newgameStatus.setAttribute('class', 'display-inline');
-		newgameStatus.innerHTML = 'Game Over';
+		newgameStatus.innerHTML = 'You Lost!';
 		gameStatusId.appendChild(newgameStatus);
 		return true;
 	}
@@ -198,14 +198,26 @@ function lose() {
 }
 
 function resetGame() {
-		guessesRemaining = 10;
-		currentWord = [];
-		workingWord = [];
-		lettersGuessed = [];
 		for (var i = 0; i < currentWord.length; i++) {	
 			var blanksId = document.getElementById('blank');
 			blanksId.parentNode.removeChild(blanksId);
 		}
+		var newBlank = document.createElement('li');
+		newBlank.setAttribute('id', 'blank');
+		newBlank.setAttribute('class', 'display-inline padding');
+		currentWordId.appendChild(newBlank);
+		for (var i = 0; i < lettersGuessed.length; i++) {
+			var guessedId = document.getElementById('guessed');
+			guessedId.parentNode.removeChild(guessedId);
+		}
+		var newGuessed = document.createElement('li');
+		newGuessed.setAttribute('id', 'guessed');
+		newGuessed.setAttribute('class', 'display-inline padding');
+		lettersGuessedId.appendChild(newGuessed);
+		guessesRemaining = 10;
+		currentWord = [];
+		workingWord = [];
+		lettersGuessed = [];
 }
 
 
