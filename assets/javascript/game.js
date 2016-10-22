@@ -7,7 +7,7 @@ var lettersGuessed = [];
 var guessesRemaining = 10;
 var wins = 0;
 var letter;
-// var snd = new Audio("assets/images/boing2.wav");
+var snd = new Audio("assets/images/boing2.wav");
 var winsId = document.getElementById('wins');
 var currentWordId = document.getElementById('currentWord');
 var remainingId = document.getElementById('remaining');
@@ -15,10 +15,10 @@ var lettersGuessedId = document.getElementById('lettersGuessed');
 var gameStatusId = document.getElementById('gameStatus');
 
 function play() {
-	// for (var i = 0; i < workingWord.length; i++) {
-	// 	var blanksId = document.getElementById('blank');
-	// 	blanksId.parentNode.removeChild(blanksId);
-	// }
+	for (var i = 0; i < workingWord.length; i++) {
+		var blanksId = document.getElementById('blank');
+		blanksId.parentNode.removeChild(blanksId);
+	}
 	// Selects new word and splits each character into an array
 	var selectWord = words[Math.floor(Math.random()*words.length)];
 	currentWord = selectWord.split("");
@@ -119,9 +119,8 @@ function replaceLetter() {
 		newBlankOrLetter.setAttribute('id', 'blank');
 		newBlankOrLetter.innerHTML = workingWord[i];
 		currentWordId.appendChild(newBlankOrLetter);
-		// snd.play();
+		snd.play();
 	}
-	console.log(workingWord);
 }
 
 // subtracts 1 from remaining number of guesses
@@ -146,6 +145,7 @@ function updateUsedLetters() {
 	var newLetter = document.createElement('li');
 	newLetter.innerHTML = letter;
 	newLetter.setAttribute('class', 'display-inline padding');
+	newLetter.setAttribute('id', 'guessed');
 	lettersGuessedId.appendChild(newLetter);
 }
 
